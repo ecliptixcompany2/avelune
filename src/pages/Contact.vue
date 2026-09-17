@@ -87,7 +87,7 @@
         <!-- WHATSAPP -->
         <a
           class="contact-card"
-          href="https://wa.me/6281234567890"
+          href="https://wa.me/6282280805075"
           target="_blank"
           rel="noopener noreferrer"
         >
