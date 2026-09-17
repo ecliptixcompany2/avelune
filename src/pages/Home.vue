@@ -229,18 +229,20 @@
    NAVIGATION
 ========================================= */
 
-function goToCollection() {
-  window.location.href = '/collection'
-}
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+
+function goToCollection() {
+  router.push('/collection')
+}
 
 function goToCustomOrder() {
-  window.location.href = '/custom-order'
+  router.push('/custom-order')
 }
 
-
 function goToContact() {
-  window.location.href = '/contact'
+  router.push('/contact')
 }
 
 </script>

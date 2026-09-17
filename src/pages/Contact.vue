@@ -10,6 +10,7 @@
         class="back-button"
         @click="goHome"
         aria-label="Back to home"
+        type="button"
       >
         <span class="back-arrow">←</span>
         <span>BACK</span>
@@ -126,7 +127,7 @@
         <!-- INSTAGRAM -->
         <a
           class="contact-card"
-          href="https://instagram.com/avelune"
+          href="https://instagram.com/avelune.fleur"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -146,50 +147,12 @@
             </span>
 
             <h3>
-              @avelune
+              @avelune.fleur
             </h3>
 
             <p>
               See our latest flowers,
               moments, and little stories.
-            </p>
-
-          </div>
-
-          <span class="contact-arrow">
-            →
-          </span>
-
-        </a>
-
-
-        <!-- EMAIL -->
-        <a
-          class="contact-card"
-          href="mailto:hello@avelune.com"
-        >
-
-          <div class="contact-number">
-            03
-          </div>
-
-          <div class="contact-icon">
-            @
-          </div>
-
-          <div class="contact-content">
-
-            <span class="contact-label">
-              EMAIL
-            </span>
-
-            <h3>
-              hello@avelune.com
-            </h3>
-
-            <p>
-              For collaborations,
-              inquiries, and other lovely things.
             </p>
 
           </div>
@@ -370,15 +333,17 @@
 
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 /* =========================================
    NAVIGATION
 ========================================= */
 
 function goHome() {
-  window.location.href = '/'
+  router.push('/')
 }
-
 </script>
 
 

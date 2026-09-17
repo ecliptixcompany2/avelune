@@ -8,13 +8,13 @@
 
       <button
         class="back-button"
+        type="button"
         @click="goHome"
         aria-label="Back to home"
       >
         <span class="back-arrow">←</span>
         <span>BACK</span>
       </button>
-
 
       <div class="brand">
 
@@ -27,7 +27,6 @@
         </div>
 
       </div>
-
 
       <div class="page-number">
         03
@@ -127,14 +126,16 @@
             ================================== -->
             <div class="form-group">
 
-              <label>
+              <label for="flower">
                 FLOWER PREFERENCE
               </label>
 
               <select
+                id="flower"
                 v-model="form.flower"
                 required
               >
+
                 <option
                   disabled
                   value=""
@@ -446,6 +447,7 @@
       </h2>
 
       <button
+        type="button"
         class="closing-button"
         @click="goHome"
       >
@@ -499,6 +501,17 @@ import {
   reactive,
   computed
 } from 'vue'
+
+import {
+  useRouter
+} from 'vue-router'
+
+
+/* =========================================
+   ROUTER
+========================================= */
+
+const router = useRouter()
 
 
 /* =========================================
@@ -557,22 +570,22 @@ const budgets = [
   {
     value: 'Little',
     label: 'Little',
-    price: 'Rp 150K — 200K'
+    price: 'Rp 15K — 25K'
   },
   {
     value: 'Sweet',
     label: 'Sweet',
-    price: 'Rp 200K — 300K'
+    price: 'Rp 30K — 50K'
   },
   {
     value: 'Special',
     label: 'Special',
-    price: 'Rp 300K — 500K'
+    price: 'Rp 60K — 100K'
   },
   {
     value: 'Something More',
     label: 'Something More',
-    price: 'Rp 500K+'
+    price: 'Rp 100K+'
   }
 ]
 
@@ -622,7 +635,7 @@ const selectedBudgetLabel = computed(() => {
 function submitOrder() {
 
   const whatsappNumber =
-    '6281234567890'
+    '6285811479992'
 
 
   const message = `
@@ -634,13 +647,13 @@ Name:
 ${form.name}
 
 Occasion:
-${form.occasion}
+${form.occasion || 'Not specified'}
 
 Flower:
 ${form.flower}
 
 Color:
-${form.color}
+${form.color || 'Not specified'}
 
 Budget:
 ${selectedBudgetLabel.value}
@@ -670,7 +683,7 @@ Thank you!
 
 function goHome() {
 
-  window.location.href = '/'
+  router.push('/')
 
 }
 
@@ -803,6 +816,16 @@ select {
 
   cursor: pointer;
 
+  touch-action: manipulation;
+
+}
+
+
+.back-button:hover {
+
+  color:
+    var(--deep-rose);
+
 }
 
 
@@ -899,7 +922,10 @@ select {
 
 .eyebrow {
 
-  margin: 0 0 20px;
+  margin:
+    0
+    0
+    20px;
 
   font-size: 8px;
 
@@ -974,13 +1000,15 @@ select {
 
 .hero-symbol {
 
-  margin-top: 32px;
+  margin-top:
+    32px;
 
   font-family:
     'Cormorant Garamond',
     serif;
 
-  font-size: 20px;
+  font-size:
+    20px;
 
   color:
     var(--rose);
@@ -1186,6 +1214,8 @@ select {
   transition:
     0.25s ease;
 
+  touch-action: manipulation;
+
 }
 
 
@@ -1377,6 +1407,8 @@ textarea::placeholder {
 
   cursor: pointer;
 
+  touch-action: manipulation;
+
 }
 
 
@@ -1474,6 +1506,8 @@ textarea::placeholder {
 
   cursor: pointer;
 
+  touch-action: manipulation;
+
 }
 
 
@@ -1562,6 +1596,8 @@ textarea::placeholder {
   transition:
     background 0.25s ease,
     transform 0.25s ease;
+
+  touch-action: manipulation;
 
 }
 
@@ -1757,7 +1793,7 @@ textarea::placeholder {
   border-top:
     1px solid
     rgba(
-     111,
+      111,
       87,
       84,
       0.15
@@ -1994,7 +2030,8 @@ textarea::placeholder {
   align-items:
     center;
 
-  gap: 25px;
+  gap:
+    25px;
 
   border:
     1px solid
@@ -2017,6 +2054,17 @@ textarea::placeholder {
 
   cursor:
     pointer;
+
+  touch-action:
+    manipulation;
+
+}
+
+
+.closing-button:hover {
+
+  background:
+    var(--soft-pink);
 
 }
 

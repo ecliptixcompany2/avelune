@@ -1,17 +1,15 @@
 <template>
   <div class="app-wrapper">
 
-    <!-- ============================= -->
-    <!-- WEBSITE -->
-    <!-- ============================= -->
-
+    <!-- =====================================
+         SEMUA HALAMAN VUE ROUTER
+    ====================================== -->
     <router-view />
 
-
-    <!-- ============================= -->
-    <!-- MUSIC PLAYER -->
-    <!-- ============================= -->
-
+    <!-- =====================================
+         GLOBAL MUSIC PLAYER
+         Audio hanya dibuat SATU KALI
+    ====================================== -->
     <div class="music-player">
 
       <button
@@ -48,16 +46,16 @@
 
     </div>
 
-
-    <!-- ============================= -->
-    <!-- AUDIO -->
-    <!-- ============================= -->
-
+    <!-- =====================================
+         SATU AUDIO UNTUK SELURUH WEBSITE
+    ====================================== -->
     <audio
       ref="audio"
       src="/music/our-song.mp3"
-      loop
       preload="auto"
+      loop
+      @play="handleAudioPlay"
+      @pause="handleAudioPause"
     ></audio>
 
   </div>
@@ -65,7 +63,6 @@
 
 
 <script setup>
-
 import {
   ref,
   onMounted,
@@ -81,19 +78,36 @@ const audio = ref(null)
 
 const isPlaying = ref(false)
 
-let interactionHandler = null
+/*
+  Menandai apakah user sengaja mematikan musik.
+
+  Ini penting.
+
+  Kalau autoplay gagal karena browser,
+  kita masih boleh mencoba play ketika user
+  pertama kali menyentuh halaman.
+
+  Tetapi kalau user memang menekan OFF,
+  kita TIDAK boleh menyalakan musik lagi
+  hanya karena user pindah halaman.
+*/
+const userTurnedOff = ref(false)
 
 
 /* =========================================
-   START MUSIC
+   PLAY MUSIC
 ========================================= */
 
-async function startMusic() {
-
+async function playMusic() {
   if (!audio.value) return
 
-  try {
+  /*
+    Kalau user sebelumnya sengaja OFF,
+    jangan hidupkan otomatis.
+  */
+  if (userTurnedOff.value) return
 
+  try {
     await audio.value.play()
 
     isPlaying.value = true
@@ -102,14 +116,14 @@ async function startMusic() {
 
     /*
       Browser mungkin memblokir autoplay.
-      Musik akan dicoba kembali ketika
-      user melakukan interaksi pertama.
+
+      Ini normal untuk audio dengan suara.
+      Kita akan mencoba lagi ketika user
+      melakukan klik/tap pertama.
     */
 
     isPlaying.value = false
-
   }
-
 }
 
 
@@ -118,32 +132,66 @@ async function startMusic() {
 ========================================= */
 
 async function toggleMusic() {
-
   if (!audio.value) return
 
 
-  if (audio.value.paused) {
+  /* ================================
+     JIKA SEDANG BERMAIN
+  ================================= */
 
-    try {
-
-      await audio.value.play()
-
-      isPlaying.value = true
-
-    } catch (error) {
-
-      isPlaying.value = false
-
-    }
-
-  } else {
+  if (!audio.value.paused) {
 
     audio.value.pause()
 
+    /*
+      User benar-benar memilih OFF.
+    */
+    userTurnedOff.value = true
+
     isPlaying.value = false
 
+    return
   }
 
+
+  /* ================================
+     JIKA SEDANG OFF
+  ================================= */
+
+  try {
+
+    /*
+      User sendiri menekan tombol ON,
+      jadi kita izinkan play.
+    */
+    userTurnedOff.value = false
+
+    await audio.value.play()
+
+    isPlaying.value = true
+
+  } catch (error) {
+
+    isPlaying.value = false
+  }
+}
+
+
+/* =========================================
+   AUDIO PLAY EVENT
+========================================= */
+
+function handleAudioPlay() {
+  isPlaying.value = true
+}
+
+
+/* =========================================
+   AUDIO PAUSE EVENT
+========================================= */
+
+function handleAudioPause() {
+  isPlaying.value = false
 }
 
 
@@ -153,124 +201,146 @@ async function toggleMusic() {
 
 function handleFirstInteraction() {
 
-  if (!audio.value) return
-
-  if (audio.value.paused) {
-    startMusic()
+  /*
+    Kalau user memang sengaja OFF,
+    jangan hidupkan lagi.
+  */
+  if (userTurnedOff.value) {
+    return
   }
 
+
+  /*
+    Kalau audio belum bermain,
+    coba mulai.
+  */
+  if (
+    audio.value &&
+    audio.value.paused
+  ) {
+    playMusic()
+  }
+
+
+  /*
+    Tidak perlu listener ini terus-menerus.
+    Setelah user berinteraksi, autoplay
+    sudah mendapatkan user gesture.
+  */
   removeInteractionListeners()
 }
 
 
 /* =========================================
-   REMOVE LISTENERS
+   REMOVE INTERACTION LISTENERS
 ========================================= */
 
 function removeInteractionListeners() {
 
-  if (!interactionHandler) return
-
   window.removeEventListener(
     'click',
-    interactionHandler
+    handleFirstInteraction
   )
 
   window.removeEventListener(
     'touchstart',
-    interactionHandler
+    handleFirstInteraction
   )
 
   window.removeEventListener(
     'keydown',
-    interactionHandler
+    handleFirstInteraction
   )
-
-  interactionHandler = null
-
 }
 
 
 /* =========================================
-   MOUNT
+   APP MOUNT
 ========================================= */
 
 onMounted(() => {
 
   /*
-    Coba langsung menjalankan musik
+    1. Coba autoplay saat website dibuka.
   */
-
-  startMusic()
+  playMusic()
 
 
   /*
-    Jika autoplay diblokir browser,
-    tunggu interaksi pertama user.
+    2. Kalau browser memblokir autoplay,
+    user interaction pertama akan mencoba
+    menjalankan musik.
   */
-
-  interactionHandler = handleFirstInteraction
-
   window.addEventListener(
     'click',
-    interactionHandler,
-    { once: false }
+    handleFirstInteraction
   )
 
   window.addEventListener(
     'touchstart',
-    interactionHandler,
-    { once: false }
+    handleFirstInteraction
   )
 
   window.addEventListener(
     'keydown',
-    interactionHandler,
-    { once: false }
+    handleFirstInteraction
   )
 
 })
 
 
 /* =========================================
-   BEFORE UNMOUNT
+   APP UNMOUNT
 ========================================= */
 
 onBeforeUnmount(() => {
 
   removeInteractionListeners()
 
-  if (audio.value) {
-    audio.value.pause()
-  }
+  /*
+    App biasanya tidak di-unmount ketika
+    hanya berpindah route.
+
+    Jadi audio tetap berjalan ketika:
+    Home → Collection → Custom Order → Contact
+  */
 
 })
-
 </script>
 
 
 <style>
-
 /* =========================================
-   RESET
+   GLOBAL
 ========================================= */
 
 * {
   box-sizing: border-box;
 }
 
+html,
+body,
+#app {
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
+}
+
+body {
+  background: #fffaf7;
+}
+
 
 /* =========================================
-   APP WRAPPER
+   APP
 ========================================= */
 
 .app-wrapper {
-  min-height: 100vh;
-  min-height: 100dvh;
+  position: relative;
 
   width: 100%;
-
-  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
 
   background: #fffaf7;
 }
@@ -281,13 +351,14 @@ onBeforeUnmount(() => {
 ========================================= */
 
 .music-player {
-
   position: fixed;
 
   right: 18px;
-  bottom: calc(18px + env(safe-area-inset-bottom));
+  bottom: calc(
+    18px + env(safe-area-inset-bottom)
+  );
 
-  z-index: 9999;
+  z-index: 99999;
 
   display: flex;
   align-items: center;
@@ -296,29 +367,42 @@ onBeforeUnmount(() => {
 
   padding: 7px 10px 7px 7px;
 
-  background: rgba(255, 250, 247, 0.92);
+  background: rgba(
+    255,
+    250,
+    247,
+    0.94
+  );
 
-  border: 1px solid rgba(158, 104, 112, 0.18);
+  border: 1px solid rgba(
+    158,
+    104,
+    112,
+    0.18
+  );
 
   border-radius: 999px;
 
   box-shadow:
-    0 8px 25px rgba(111, 87, 84, 0.10);
+    0 8px 25px rgba(
+      111,
+      87,
+      84,
+      0.10
+    );
 
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-
 }
 
 
 /* =========================================
-   MUSIC BUTTON
+   BUTTON
 ========================================= */
 
 .music-button {
-
-  width: 34px;
-  height: 34px;
+  width: 35px;
+  height: 35px;
 
   flex-shrink: 0;
 
@@ -329,7 +413,6 @@ onBeforeUnmount(() => {
   padding: 0;
 
   border: none;
-
   border-radius: 50%;
 
   background: #9e6870;
@@ -339,73 +422,56 @@ onBeforeUnmount(() => {
   cursor: pointer;
 
   transition:
-    transform 0.25s ease,
-    background 0.25s ease;
-
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
-
 .music-button:hover {
-
   transform: scale(1.05);
 
   background: #8f5c65;
-
 }
 
-
 .music-button:active {
-
   transform: scale(0.94);
-
 }
 
 
 /* =========================================
-   MUSIC ICON
+   ICON
 ========================================= */
 
 .music-icon {
-
-  display: block;
-
   font-family: Georgia, serif;
 
   font-size: 17px;
 
   line-height: 1;
-
 }
 
-
 .music-icon.playing {
-
   animation:
-    musicPulse 1.2s ease-in-out infinite;
-
+    musicPulse
+    1.2s ease-in-out infinite;
 }
 
 
 /* =========================================
-   MUSIC TEXT
+   INFO
 ========================================= */
 
 .music-info {
-
   display: flex;
-
   flex-direction: column;
-
   justify-content: center;
 
-  min-width: 76px;
-
+  min-width: 78px;
 }
 
-
 .music-status {
-
-  font-family: 'DM Sans', sans-serif;
+  font-family:
+    'DM Sans',
+    sans-serif;
 
   font-size: 7px;
 
@@ -416,15 +482,14 @@ onBeforeUnmount(() => {
   line-height: 1.2;
 
   color: #9e6870;
-
 }
 
-
 .music-name {
-
   margin-top: 2px;
 
-  font-family: 'Cormorant Garamond', serif;
+  font-family:
+    'Cormorant Garamond',
+    serif;
 
   font-size: 12px;
 
@@ -433,12 +498,11 @@ onBeforeUnmount(() => {
   line-height: 1.1;
 
   color: #6f5754;
-
 }
 
 
 /* =========================================
-   MUSIC ANIMATION
+   ANIMATION
 ========================================= */
 
 @keyframes musicPulse {
@@ -462,28 +526,21 @@ onBeforeUnmount(() => {
 @media (min-width: 600px) {
 
   .music-player {
-
     right: 24px;
 
     bottom: calc(
-      24px + env(safe-area-inset-bottom)
+      24px +
+      env(safe-area-inset-bottom)
     );
-
   }
-
 
   .music-button {
-
     width: 36px;
     height: 36px;
-
   }
 
-
   .music-info {
-
     min-width: 88px;
-
   }
 
 }
@@ -496,48 +553,38 @@ onBeforeUnmount(() => {
 @media (max-width: 480px) {
 
   .music-player {
-
     right: 12px;
 
     bottom: calc(
-      12px + env(safe-area-inset-bottom)
+      12px +
+      env(safe-area-inset-bottom)
     );
-
-    padding: 6px 9px 6px 6px;
 
     gap: 7px;
 
+    padding:
+      6px
+      9px
+      6px
+      6px;
   }
-
 
   .music-button {
-
     width: 32px;
     height: 32px;
-
   }
-
 
   .music-info {
-
     min-width: 70px;
-
   }
-
 
   .music-status {
-
     font-size: 6px;
-
     letter-spacing: 1.2px;
-
   }
 
-
   .music-name {
-
     font-size: 11px;
-
   }
 
 }
@@ -550,22 +597,17 @@ onBeforeUnmount(() => {
 @media (max-width: 360px) {
 
   .music-player {
-
     right: 10px;
 
     bottom: calc(
-      10px + env(safe-area-inset-bottom)
+      10px +
+      env(safe-area-inset-bottom)
     );
-
   }
 
-
   .music-info {
-
     min-width: 62px;
-
   }
 
 }
-
 </style>

@@ -11,6 +11,7 @@
         class="back-button"
         @click="goHome"
         aria-label="Back to home"
+        type="button"
       >
         <span class="back-line"></span>
         <span>BACK</span>
@@ -66,24 +67,17 @@
     <section class="products">
 
       <!-- PRODUCT 01 -->
-      <article
-        class="product-card"
-        @click="openProduct('1')"
-      >
+      <article class="product-card">
 
         <div class="product-image">
 
           <img
             src="/images/flower-01.jpg"
-            alt="Rosy Morning flower arrangement"
+            alt="Rosée d'Amour"
           />
 
           <span class="product-number">
             01
-          </span>
-
-          <span class="view-detail">
-            VIEW
           </span>
 
         </div>
@@ -92,16 +86,16 @@
 
           <div>
             <h2>
-              Rosy Morning
+              Rosée d'Amour
             </h2>
 
             <p>
-              Soft Blush · Medium
+              Soft Pink
             </p>
           </div>
 
           <span class="price">
-            Rp 150.000
+            Rp 60.000
           </span>
 
         </div>
@@ -110,24 +104,17 @@
 
 
       <!-- PRODUCT 02 -->
-      <article
-        class="product-card"
-        @click="openProduct('2')"
-      >
+      <article class="product-card">
 
         <div class="product-image">
 
           <img
             src="/images/flower-02.jpg"
-            alt="Blush Bloom flower arrangement"
+            alt="Célestine Azure"
           />
 
           <span class="product-number">
             02
-          </span>
-
-          <span class="view-detail">
-            VIEW
           </span>
 
         </div>
@@ -136,16 +123,16 @@
 
           <div>
             <h2>
-              Blush Bloom
+              Célestine Azure
             </h2>
 
             <p>
-              Dusty Rose · Small
+              Baby Blue
             </p>
           </div>
 
           <span class="price">
-            Rp 185.000
+            Rp 40.000
           </span>
 
         </div>
@@ -154,24 +141,17 @@
 
 
       <!-- PRODUCT 03 -->
-      <article
-        class="product-card"
-        @click="openProduct('3')"
-      >
+      <article class="product-card">
 
         <div class="product-image">
 
           <img
             src="/images/flower-03.jpg"
-            alt="Petite Bloom flower arrangement"
+            alt="Fuchsia Éclat"
           />
 
           <span class="product-number">
             03
-          </span>
-
-          <span class="view-detail">
-            VIEW
           </span>
 
         </div>
@@ -180,16 +160,16 @@
 
           <div>
             <h2>
-              Petite Bloom
+              Fuchsia Éclat
             </h2>
 
             <p>
-              Cream · Petite
+              Pink Magenta
             </p>
           </div>
 
           <span class="price">
-            Rp 220.000
+            Rp 75.000
           </span>
 
         </div>
@@ -198,24 +178,17 @@
 
 
       <!-- PRODUCT 04 -->
-      <article
-        class="product-card"
-        @click="openProduct('4')"
-      >
+      <article class="product-card">
 
         <div class="product-image">
 
           <img
             src="/images/flower-04.jpg"
-            alt="Everlasting flower arrangement"
+            alt="Lilas Étoile"
           />
 
           <span class="product-number">
             04
-          </span>
-
-          <span class="view-detail">
-            VIEW
           </span>
 
         </div>
@@ -224,16 +197,16 @@
 
           <div>
             <h2>
-              Everlasting
+              Soft Lilas
             </h2>
 
             <p>
-              Preserved · Special
+              Lilac Pastel
             </p>
           </div>
 
           <span class="price">
-            Rp 250.000
+            Rp 50.000
           </span>
 
         </div>
@@ -267,6 +240,7 @@
         <button
           class="custom-button"
           @click="goToCustomOrder"
+          type="button"
         >
           <span>
             CUSTOM ORDER
@@ -314,23 +288,22 @@
 
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 
 /* =========================================
    NAVIGATION
 ========================================= */
 
 function goHome() {
-  window.location.href = '/'
-}
-
-
-function openProduct(id) {
-  window.location.href = `/product/${id}`
+  router.push('/')
 }
 
 
 function goToCustomOrder() {
-  window.location.href = '/custom-order'
+  router.push('/custom-order')
 }
 
 </script>
@@ -395,9 +368,11 @@ function goToCustomOrder() {
   box-sizing: border-box;
 }
 
+
 button {
   font: inherit;
 }
+
 
 img {
   display: block;
@@ -713,8 +688,6 @@ img {
 
   min-width: 0;
 
-  cursor: pointer;
-
 }
 
 
@@ -783,51 +756,6 @@ img {
   text-shadow:
     0 1px 5px
     rgba(0,0,0,0.2);
-
-}
-
-
-/* =========================================
-   VIEW
-========================================= */
-
-.view-detail {
-
-  position: absolute;
-
-  right: 12px;
-
-  bottom: 12px;
-
-  padding:
-    7px
-    10px;
-
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.75
-    );
-
-  background:
-    rgba(
-      255,
-      250,
-      247,
-      0.8
-    );
-
-  backdrop-filter:
-    blur(5px);
-
-  font-size: 6px;
-
-  letter-spacing: 1.5px;
-
-  color: var(--brown);
 
 }
 
@@ -1372,21 +1300,6 @@ img {
       8px;
 
     left:
-      8px;
-
-  }
-
-
-  .view-detail {
-
-    right:
-      8px;
-
-    bottom:
-      8px;
-
-    padding:
-      6px
       8px;
 
   }
