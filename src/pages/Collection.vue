@@ -14,12 +14,16 @@
         type="button"
       >
         <span class="back-line"></span>
-        <span>BACK</span>
+
+        <span>
+          BACK
+        </span>
       </button>
 
 
       <!-- BRAND -->
       <div class="brand">
+
         <div class="brand-name">
           Avelune
         </div>
@@ -27,6 +31,7 @@
         <div class="brand-subtitle">
           FLOWERS & MOMENTS
         </div>
+
       </div>
 
 
@@ -85,6 +90,7 @@
         <div class="product-info">
 
           <div>
+
             <h2>
               Rosée d'Amour
             </h2>
@@ -92,6 +98,7 @@
             <p>
               Soft Pink
             </p>
+
           </div>
 
           <span class="price">
@@ -122,6 +129,7 @@
         <div class="product-info">
 
           <div>
+
             <h2>
               Célestine Azure
             </h2>
@@ -129,6 +137,7 @@
             <p>
               Baby Blue
             </p>
+
           </div>
 
           <span class="price">
@@ -159,6 +168,7 @@
         <div class="product-info">
 
           <div>
+
             <h2>
               Fuchsia Éclat
             </h2>
@@ -166,6 +176,7 @@
             <p>
               Pink Magenta
             </p>
+
           </div>
 
           <span class="price">
@@ -196,6 +207,7 @@
         <div class="product-info">
 
           <div>
+
             <h2>
               Soft Lilas
             </h2>
@@ -203,6 +215,7 @@
             <p>
               Lilac Pastel
             </p>
+
           </div>
 
           <span class="price">
@@ -237,18 +250,20 @@
           colors, and flowers you have in mind.
         </p>
 
+
         <button
           class="custom-button"
           @click="goToCustomOrder"
           type="button"
         >
+
           <span>
             CUSTOM ORDER
           </span>
 
-          <span>
-            ↗
-          </span>
+          <!-- GANTI PANAH ↗ MENJADI GARIS -->
+          <span class="button-line"></span>
+
         </button>
 
       </div>
@@ -288,6 +303,7 @@
 
 
 <script setup>
+
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -971,6 +987,10 @@ img {
 }
 
 
+/* =========================================
+   CUSTOM BUTTON
+========================================= */
+
 .custom-button {
 
   margin-top:
@@ -1031,10 +1051,31 @@ img {
 }
 
 
-.custom-button span:last-child {
+/* =========================================
+   BUTTON LINE
+   Menggantikan simbol ↗
+========================================= */
 
-  font-size:
-    17px;
+.button-line {
+
+  width:
+    22px;
+
+  height:
+    1px;
+
+  display:
+    block;
+
+  flex-shrink: 0;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.9
+    );
 
 }
 
@@ -1341,6 +1382,14 @@ img {
   }
 
 
+  .button-line {
+
+    width:
+      20px;
+
+  }
+
+
   .footer {
 
     padding-top:
@@ -1451,6 +1500,14 @@ img {
 
     font-size:
       2.7rem;
+
+  }
+
+
+  .button-line {
+
+    width:
+      18px;
 
   }
 

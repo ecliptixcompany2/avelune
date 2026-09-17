@@ -22,6 +22,7 @@
       </div>
 
       <button
+        type="button"
         class="header-contact"
         @click="goToContact"
       >
@@ -94,13 +95,29 @@
         </div>
 
 
-        <!-- CTA -->
+        <!-- =====================================
+             CTA
+        ====================================== -->
         <button
+          type="button"
           class="explore-button"
           @click="goToCollection"
         >
-          <span>EXPLORE FLOWERS</span>
-          <span class="button-arrow">↗</span>
+
+          <span>
+            EXPLORE FLOWERS
+          </span>
+
+          <!--
+            Hanya garis.
+            Tidak menggunakan karakter panah
+            supaya aman di iPhone.
+          -->
+          <span
+            class="button-line"
+            aria-hidden="true"
+          ></span>
+
         </button>
 
       </div>
@@ -127,6 +144,7 @@
 
         <!-- COLLECTION -->
         <button
+          type="button"
           class="nav-card"
           @click="goToCollection"
         >
@@ -139,6 +157,7 @@
             COLLECTION
           </div>
 
+          <!-- Tetap menggunakan arrow awal -->
           <div class="nav-card-arrow">
             →
           </div>
@@ -148,6 +167,7 @@
 
         <!-- CUSTOM ORDER -->
         <button
+          type="button"
           class="nav-card"
           @click="goToCustomOrder"
         >
@@ -160,6 +180,7 @@
             CUSTOM ORDER
           </div>
 
+          <!-- Tetap menggunakan arrow awal -->
           <div class="nav-card-arrow">
             →
           </div>
@@ -169,6 +190,7 @@
 
         <!-- CONTACT -->
         <button
+          type="button"
           class="nav-card"
           @click="goToContact"
         >
@@ -181,6 +203,7 @@
             CONTACT
           </div>
 
+          <!-- Tetap menggunakan arrow awal -->
           <div class="nav-card-arrow">
             →
           </div>
@@ -233,13 +256,16 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+
 function goToCollection() {
   router.push('/collection')
 }
 
+
 function goToCustomOrder() {
   router.push('/custom-order')
 }
+
 
 function goToContact() {
   router.push('/contact')
@@ -312,9 +338,11 @@ function goToContact() {
   box-sizing: border-box;
 }
 
+
 button {
   font: inherit;
 }
+
 
 img {
   display: block;
@@ -489,7 +517,8 @@ img {
   letter-spacing:
     1.8px;
 
-  cursor: pointer;
+  cursor:
+    pointer;
 
   transition:
     color 0.25s ease;
@@ -990,10 +1019,27 @@ img {
 }
 
 
-.button-arrow {
+/* =========================================
+   EXPLORE BUTTON LINE
+   HANYA GARIS
+========================================= */
 
-  font-size:
-    18px;
+.button-line {
+
+  width:
+    28px;
+
+  height:
+    1px;
+
+  display:
+    block;
+
+  flex-shrink:
+    0;
+
+  background:
+    currentColor;
 
 }
 
@@ -1268,7 +1314,8 @@ img {
 
 
 /* =========================================
-   NAV ARROW
+   NAV CARD ARROW
+   KEMBALI KE VERSI AWAL
 ========================================= */
 
 .nav-card-arrow {
@@ -1498,6 +1545,14 @@ img {
   }
 
 
+  .button-line {
+
+    width:
+      24px;
+
+  }
+
+
   .hero-divider {
 
     margin-top:
@@ -1694,6 +1749,14 @@ img {
 
     font-size:
       8px;
+
+  }
+
+
+  .button-line {
+
+    width:
+      22px;
 
   }
 

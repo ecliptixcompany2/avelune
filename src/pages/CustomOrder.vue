@@ -12,7 +12,7 @@
         @click="goHome"
         aria-label="Back to home"
       >
-        <span class="back-arrow">←</span>
+        <span class="back-line"></span>
         <span>BACK</span>
       </button>
 
@@ -285,9 +285,7 @@
                 SEND MY REQUEST
               </span>
 
-              <span class="submit-arrow">
-                ↗
-              </span>
+              <span class="submit-line"></span>
 
             </button>
 
@@ -451,8 +449,12 @@
         class="closing-button"
         @click="goHome"
       >
-        BACK TO AVELUNE
-        <span>↗</span>
+        <span>
+          BACK TO AVELUNE
+        </span>
+
+        <span class="closing-line"></span>
+
       </button>
 
     </section>
@@ -791,6 +793,10 @@ select {
 }
 
 
+/* =========================================
+   BACK BUTTON
+========================================= */
+
 .back-button {
 
   justify-self: start;
@@ -829,14 +835,39 @@ select {
 }
 
 
-.back-arrow {
+/* GARIS BACK */
 
-  font-size: 16px;
+.back-line {
 
-  line-height: 1;
+  width: 22px;
+
+  height: 1px;
+
+  display: block;
+
+  background:
+    var(--brown);
+
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
 
 }
 
+
+.back-button:hover .back-line {
+
+  width: 27px;
+
+  background:
+    var(--deep-rose);
+
+}
+
+
+/* =========================================
+   BRAND
+========================================= */
 
 .brand {
 
@@ -1613,9 +1644,27 @@ textarea::placeholder {
 }
 
 
-.submit-arrow {
+/* GARIS SUBMIT */
 
-  font-size: 20px;
+.submit-line {
+
+  width: 24px;
+
+  height: 1px;
+
+  display: block;
+
+  background: white;
+
+  transition:
+    width 0.25s ease;
+
+}
+
+
+.submit-button:hover .submit-line {
+
+  width: 30px;
 
 }
 
@@ -1819,7 +1868,8 @@ textarea::placeholder {
 
   align-items: center;
 
-  justify-content: space-between;
+  justify-content:
+    space-between;
 
   gap: 15px;
 
@@ -1900,7 +1950,8 @@ textarea::placeholder {
 
   font-size: 7px;
 
-  letter-spacing: 1px;
+  letter-spacing:
+    1px;
 
   color:
     var(--rose);
@@ -2069,10 +2120,28 @@ textarea::placeholder {
 }
 
 
-.closing-button span {
+/* GARIS CLOSING */
 
-  font-size:
-    16px;
+.closing-line {
+
+  width: 22px;
+
+  height: 1px;
+
+  display: block;
+
+  background:
+    var(--deep-rose);
+
+  transition:
+    width 0.25s ease;
+
+}
+
+
+.closing-button:hover .closing-line {
+
+  width: 28px;
 
 }
 
@@ -2230,7 +2299,15 @@ textarea::placeholder {
       6px;
 
     gap:
-      6px;
+      7px;
+
+  }
+
+
+  .back-line {
+
+    width:
+      18px;
 
   }
 
