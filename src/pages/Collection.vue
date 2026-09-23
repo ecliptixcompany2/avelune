@@ -6,24 +6,18 @@
     ========================================== -->
     <header class="header">
 
-      <!-- BACK -->
       <button
         class="back-button"
+        type="button"
         @click="goHome"
         aria-label="Back to home"
-        type="button"
       >
         <span class="back-line"></span>
-
-        <span>
-          BACK
-        </span>
+        <span>BACK</span>
       </button>
 
 
-      <!-- BRAND -->
       <div class="brand">
-
         <div class="brand-name">
           Avelune
         </div>
@@ -31,16 +25,15 @@
         <div class="brand-subtitle">
           FLOWERS & MOMENTS
         </div>
-
       </div>
 
 
-      <!-- PAGE NUMBER -->
       <div class="page-number">
         02
       </div>
 
     </header>
+
 
 
     <!-- =========================================
@@ -66,12 +59,16 @@
     </section>
 
 
+
     <!-- =========================================
-         COLLECTION GRID
+         PRODUCTS
     ========================================== -->
     <section class="products">
 
-      <!-- PRODUCT 01 -->
+
+      <!-- =======================================
+           01
+      ======================================== -->
       <article class="product-card">
 
         <div class="product-image">
@@ -87,9 +84,10 @@
 
         </div>
 
+
         <div class="product-info">
 
-          <div>
+          <div class="product-name">
 
             <h2>
               Rosée d'Amour
@@ -107,10 +105,34 @@
 
         </div>
 
+
+        <button
+          class="buy-button"
+          type="button"
+          @click="
+            buyFlower(
+              'Rosée d’Amour',
+              'Soft Pink',
+              'Rp 60.000'
+            )
+          "
+        >
+          <span>
+            BUY THIS FLOWER
+          </span>
+
+          <span class="buy-arrow">
+            →
+          </span>
+        </button>
+
       </article>
 
 
-      <!-- PRODUCT 02 -->
+
+      <!-- =======================================
+           02
+      ======================================== -->
       <article class="product-card">
 
         <div class="product-image">
@@ -126,9 +148,10 @@
 
         </div>
 
+
         <div class="product-info">
 
-          <div>
+          <div class="product-name">
 
             <h2>
               Célestine Azure
@@ -146,10 +169,34 @@
 
         </div>
 
+
+        <button
+          class="buy-button"
+          type="button"
+          @click="
+            buyFlower(
+              'Célestine Azure',
+              'Baby Blue',
+              'Rp 40.000'
+            )
+          "
+        >
+          <span>
+            BUY THIS FLOWER
+          </span>
+
+          <span class="buy-arrow">
+            →
+          </span>
+        </button>
+
       </article>
 
 
-      <!-- PRODUCT 03 -->
+
+      <!-- =======================================
+           03
+      ======================================== -->
       <article class="product-card">
 
         <div class="product-image">
@@ -165,9 +212,10 @@
 
         </div>
 
+
         <div class="product-info">
 
-          <div>
+          <div class="product-name">
 
             <h2>
               Fuchsia Éclat
@@ -185,17 +233,41 @@
 
         </div>
 
+
+        <button
+          class="buy-button"
+          type="button"
+          @click="
+            buyFlower(
+              'Fuchsia Éclat',
+              'Pink Magenta',
+              'Rp 75.000'
+            )
+          "
+        >
+          <span>
+            BUY THIS FLOWER
+          </span>
+
+          <span class="buy-arrow">
+            →
+          </span>
+        </button>
+
       </article>
 
 
-      <!-- PRODUCT 04 -->
+
+      <!-- =======================================
+           04
+      ======================================== -->
       <article class="product-card">
 
         <div class="product-image">
 
           <img
             src="/images/flower-04.jpg"
-            alt="Lilas Étoile"
+            alt="Soft Lilas"
           />
 
           <span class="product-number">
@@ -204,9 +276,10 @@
 
         </div>
 
+
         <div class="product-info">
 
-          <div>
+          <div class="product-name">
 
             <h2>
               Soft Lilas
@@ -224,13 +297,35 @@
 
         </div>
 
+
+        <button
+          class="buy-button"
+          type="button"
+          @click="
+            buyFlower(
+              'Soft Lilas',
+              'Lilac Pastel',
+              'Rp 50.000'
+            )
+          "
+        >
+          <span>
+            BUY THIS FLOWER
+          </span>
+
+          <span class="buy-arrow">
+            →
+          </span>
+        </button>
+
       </article>
 
     </section>
 
 
+
     <!-- =========================================
-         CUSTOM ORDER CTA
+         CUSTOM ORDER
     ========================================== -->
     <section class="custom-section">
 
@@ -250,25 +345,24 @@
           colors, and flowers you have in mind.
         </p>
 
-
         <button
           class="custom-button"
-          @click="goToCustomOrder"
           type="button"
+          @click="goToCustomOrder"
         >
-
           <span>
             CUSTOM ORDER
           </span>
 
-          <!-- GANTI PANAH ↗ MENJADI GARIS -->
-          <span class="button-line"></span>
-
+          <span class="custom-arrow">
+            →
+          </span>
         </button>
 
       </div>
 
     </section>
+
 
 
     <!-- =========================================
@@ -302,11 +396,63 @@
 </template>
 
 
+
 <script setup>
 
 import { useRouter } from 'vue-router'
 
+
+/* =========================================
+   ROUTER
+========================================= */
+
 const router = useRouter()
+
+
+
+/* =========================================
+   WHATSAPP BUY
+========================================= */
+
+function buyFlower(
+  flowerName,
+  color,
+  price
+) {
+
+  const whatsappNumber =
+    '6283172536705'
+
+
+  const message = `Hello Avelune! ♡
+
+I'd like to order one of your ready-made flowers.
+
+Flower:
+${flowerName}
+
+Color:
+${color}
+
+Price:
+${price}
+
+I'd like to know more about the availability and ordering process.
+
+Thank you! ♡`
+
+
+  const whatsappUrl =
+    `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+
+
+  window.open(
+    whatsappUrl,
+    '_blank'
+  )
+
+}
+
 
 
 /* =========================================
@@ -314,22 +460,23 @@ const router = useRouter()
 ========================================= */
 
 function goHome() {
+
   router.push('/')
+
 }
 
 
 function goToCustomOrder() {
+
   router.push('/custom-order')
+
 }
 
 </script>
 
 
-<style scoped>
 
-/* =========================================
-   FONTS
-========================================= */
+<style scoped>
 
 @import url(
   'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&family=Parisienne&display=swap'
@@ -337,7 +484,7 @@ function goToCustomOrder() {
 
 
 /* =========================================
-   VARIABLES
+   ROOT
 ========================================= */
 
 .collection {
@@ -363,7 +510,7 @@ function goToCustomOrder() {
     linear-gradient(
       180deg,
       #fffaf7 0%,
-      #fff8f6 45%,
+      #fff8f6 50%,
       #f8eee9 100%
     );
 
@@ -376,24 +523,24 @@ function goToCustomOrder() {
 }
 
 
-/* =========================================
-   RESET
-========================================= */
+.collection *,
+.collection *::before,
+.collection *::after {
 
-* {
   box-sizing: border-box;
+
 }
 
 
 button {
+
   font: inherit;
+
+  -webkit-tap-highlight-color:
+    transparent;
+
 }
 
-
-img {
-  display: block;
-  width: 100%;
-}
 
 
 /* =========================================
@@ -404,11 +551,11 @@ img {
 
   width: 100%;
 
-  min-height: 100px;
+  min-height: 96px;
 
   padding:
-    18px
-    clamp(18px, 5vw, 70px);
+    15px
+    clamp(16px, 5vw, 70px);
 
   display: grid;
 
@@ -421,29 +568,25 @@ img {
 
   border-bottom:
     1px solid
-    rgba(
-      111,
-      87,
-      84,
-      0.12
-    );
+    rgba(111, 87, 84, 0.12);
 
 }
 
 
+
 /* =========================================
-   BACK BUTTON
+   BACK
 ========================================= */
 
 .back-button {
 
   justify-self: start;
 
-  display: flex;
+  display: inline-flex;
 
   align-items: center;
 
-  gap: 10px;
+  gap: 9px;
 
   padding: 8px 0;
 
@@ -455,24 +598,34 @@ img {
 
   font-size: 8px;
 
-  letter-spacing: 1.8px;
+  letter-spacing: 1.7px;
 
   cursor: pointer;
+
+  touch-action: manipulation;
+
+}
+
+
+.back-button:active {
+
+  transform: scale(0.97);
 
 }
 
 
 .back-line {
 
-  width: 23px;
-
-  height: 1px;
-
   position: relative;
 
   display: block;
 
-  background: var(--brown);
+  width: 22px;
+
+  height: 1px;
+
+  background:
+    var(--brown);
 
 }
 
@@ -485,15 +638,17 @@ img {
 
   left: 0;
 
-  top: -5px;
+  top: -4px;
 
-  width: 14px;
+  width: 13px;
 
   height: 1px;
 
-  background: var(--brown);
+  background:
+    var(--brown);
 
 }
+
 
 
 /* =========================================
@@ -508,6 +663,8 @@ img {
 
   align-items: center;
 
+  min-width: 0;
+
 }
 
 
@@ -519,31 +676,39 @@ img {
 
   font-size:
     clamp(
-      34px,
+      31px,
       7vw,
       50px
     );
 
-  line-height: 0.9;
+  line-height:
+    0.9;
 
-  color: var(--deep-rose);
+  color:
+    var(--deep-rose);
 
-  white-space: nowrap;
+  white-space:
+    nowrap;
 
 }
 
 
 .brand-subtitle {
 
-  margin-top: 9px;
+  margin-top: 8px;
 
   font-size: 6px;
 
-  letter-spacing: 2.5px;
+  letter-spacing: 2.3px;
 
-  color: var(--brown);
+  color:
+    var(--brown);
+
+  white-space:
+    nowrap;
 
 }
+
 
 
 /* =========================================
@@ -552,15 +717,18 @@ img {
 
 .page-number {
 
-  justify-self: end;
+  justify-self:
+    end;
 
-  font-size: 9px;
+  font-size: 8px;
 
-  letter-spacing: 2px;
+  letter-spacing: 1.8px;
 
-  color: var(--brown);
+  color:
+    var(--brown);
 
 }
+
 
 
 /* =========================================
@@ -576,9 +744,9 @@ img {
   margin: 0 auto;
 
   padding:
-    clamp(55px, 9vw, 100px)
-    20px
-    clamp(45px, 7vw, 75px);
+    clamp(48px, 9vw, 95px)
+    18px
+    clamp(42px, 7vw, 70px);
 
   text-align: center;
 
@@ -587,13 +755,15 @@ img {
 
 .eyebrow {
 
-  margin: 0 0 18px;
+  margin:
+    0 0 17px;
 
-  font-size: 8px;
+  font-size: 7px;
 
-  letter-spacing: 3px;
+  letter-spacing: 2.5px;
 
-  color: var(--rose);
+  color:
+    var(--rose);
 
 }
 
@@ -608,16 +778,19 @@ img {
 
   font-size:
     clamp(
-      3.3rem,
-      9vw,
+      3.1rem,
+      10vw,
       6.5rem
     );
 
-  font-weight: 400;
+  font-weight:
+    400;
 
-  line-height: 0.82;
+  line-height:
+    0.83;
 
-  color: var(--brown);
+  color:
+    var(--brown);
 
 }
 
@@ -626,36 +799,39 @@ img {
 
   display: block;
 
-  margin-top: 8px;
+  margin-top: 7px;
 
-  color: var(--rose);
+  color:
+    var(--rose);
 
-  font-weight: 400;
+  font-weight:
+    400;
 
 }
 
 
 .intro-description {
 
-  max-width: 450px;
+  max-width: 430px;
 
   margin:
-    30px
-    auto
-    0;
+    27px auto 0;
 
   font-size:
     clamp(
-      10px,
+      9px,
       2vw,
-      13px
+      12px
     );
 
-  line-height: 1.8;
+  line-height:
+    1.8;
 
-  color: #806c68;
+  color:
+    #806c68;
 
 }
+
 
 
 /* =========================================
@@ -666,49 +842,56 @@ img {
 
   width: 100%;
 
-  max-width: 1250px;
+  max-width: 1180px;
 
   margin: 0 auto;
 
   padding:
     0
-    clamp(18px, 5vw, 60px)
-    80px;
+    clamp(16px, 5vw, 55px)
+    75px;
 
   display: grid;
 
   grid-template-columns:
-    repeat(
-      2,
-      minmax(0, 1fr)
-    );
+    repeat(2, minmax(0, 1fr));
 
   column-gap:
     clamp(
-      12px,
+      10px,
       3vw,
-      40px
+      34px
     );
 
   row-gap:
-    55px;
+    clamp(
+      42px,
+      7vw,
+      65px
+    );
 
 }
 
 
+
 /* =========================================
-   PRODUCT CARD
+   CARD
 ========================================= */
 
 .product-card {
 
   min-width: 0;
 
+  display: flex;
+
+  flex-direction: column;
+
 }
 
 
+
 /* =========================================
-   PRODUCT IMAGE
+   IMAGE
 ========================================= */
 
 .product-image {
@@ -717,8 +900,7 @@ img {
 
   width: 100%;
 
-  aspect-ratio:
-    0.78;
+  aspect-ratio: 0.78;
 
   overflow: hidden;
 
@@ -730,50 +912,41 @@ img {
 
 .product-image img {
 
+  display: block;
+
   width: 100%;
 
   height: 100%;
 
   object-fit: cover;
 
-  transition:
-    transform 0.6s ease;
-
 }
 
-
-.product-card:hover
-.product-image img {
-
-  transform:
-    scale(1.04);
-
-}
-
-
-/* =========================================
-   PRODUCT NUMBER
-========================================= */
 
 .product-number {
 
   position: absolute;
 
-  top: 12px;
+  top: 10px;
 
-  left: 12px;
+  left: 11px;
+
+  font-family:
+    'DM Sans',
+    sans-serif;
 
   font-size: 7px;
 
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
 
   color: white;
 
   text-shadow:
     0 1px 5px
-    rgba(0,0,0,0.2);
+    rgba(0, 0, 0, 0.22);
 
 }
+
 
 
 /* =========================================
@@ -782,18 +955,28 @@ img {
 
 .product-info {
 
-  padding-top:
-    15px;
+  width: 100%;
 
-  display: flex;
+  min-height: 66px;
 
-  align-items:
-    flex-start;
+  padding-top: 13px;
 
-  justify-content:
-    space-between;
+  display: grid;
 
-  gap: 10px;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto;
+
+  align-items: start;
+
+  column-gap: 8px;
+
+}
+
+
+.product-name {
+
+  min-width: 0;
 
 }
 
@@ -808,16 +991,22 @@ img {
 
   font-size:
     clamp(
-      19px,
+      18px,
       4vw,
-      29px
+      28px
     );
 
-  font-weight: 500;
+  font-weight:
+    500;
 
-  line-height: 1;
+  line-height:
+    0.95;
 
-  color: var(--brown);
+  color:
+    var(--brown);
+
+  overflow-wrap:
+    break-word;
 
 }
 
@@ -825,19 +1014,20 @@ img {
 .product-info p {
 
   margin:
-    7px
-    0
-    0;
+    6px 0 0;
 
   font-size:
     clamp(
-      7px,
+      6.5px,
       1.5vw,
       9px
     );
 
+  line-height:
+    1.3;
+
   letter-spacing:
-    0.7px;
+    0.5px;
 
   color:
     #927b77;
@@ -847,19 +1037,24 @@ img {
 
 .price {
 
-  flex-shrink: 0;
+  padding-top:
+    3px;
 
-  padding-top: 3px;
+  white-space:
+    nowrap;
 
   font-size:
     clamp(
-      7px,
-      1.5vw,
-      10px
+      6.5px,
+      1.4vw,
+      9px
     );
 
+  line-height:
+    1.2;
+
   letter-spacing:
-    0.4px;
+    0.2px;
 
   color:
     var(--deep-rose);
@@ -867,8 +1062,140 @@ img {
 }
 
 
+
 /* =========================================
-   CUSTOM SECTION
+   BUY BUTTON
+========================================= */
+
+.buy-button {
+
+  width: 100%;
+
+  min-width: 0;
+
+  min-height: 44px;
+
+  margin-top: 5px;
+
+  padding:
+    0 13px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 8px;
+
+  border:
+    1px solid
+    var(--rose);
+
+  border-radius: 4px;
+
+  background:
+    rgba(255, 250, 247, 0.9);
+
+  color:
+    var(--deep-rose);
+
+  font-size:
+    clamp(
+      6px,
+      1.35vw,
+      8px
+    );
+
+  font-weight: 500;
+
+  letter-spacing:
+    clamp(
+      0.8px,
+      0.25vw,
+      1.5px
+    );
+
+  cursor: pointer;
+
+  touch-action:
+    manipulation;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+}
+
+
+.buy-button:hover {
+
+  background:
+    var(--rose);
+
+  color: white;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 7px 16px
+    rgba(168, 111, 120, 0.16);
+
+}
+
+
+.buy-button:active {
+
+  background:
+    var(--deep-rose);
+
+  color: white;
+
+  transform:
+    scale(0.985);
+
+  box-shadow: none;
+
+}
+
+
+.buy-arrow {
+
+  flex-shrink: 0;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size:
+    16px;
+
+  font-weight:
+    300;
+
+  line-height:
+    1;
+
+  transition:
+    transform 0.2s ease;
+
+}
+
+
+.buy-button:hover .buy-arrow {
+
+  transform:
+    translateX(3px);
+
+}
+
+
+
+/* =========================================
+   CUSTOM ORDER
 ========================================= */
 
 .custom-section {
@@ -876,8 +1203,7 @@ img {
   width: 100%;
 
   padding:
-    85px
-    20px;
+    75px 18px;
 
   display: flex;
 
@@ -888,21 +1214,11 @@ img {
 
   border-top:
     1px solid
-    rgba(
-      201,
-      143,
-      152,
-      0.18
-    );
+    rgba(201, 143, 152, 0.15);
 
   border-bottom:
     1px solid
-    rgba(
-      201,
-      143,
-      152,
-      0.18
-    );
+    rgba(201, 143, 152, 0.15);
 
 }
 
@@ -911,8 +1227,7 @@ img {
 
   width: 100%;
 
-  max-width:
-    650px;
+  max-width: 650px;
 
   text-align: center;
 
@@ -921,11 +1236,12 @@ img {
 
 .custom-label {
 
-  font-size: 7px;
+  font-size: 6.5px;
 
-  letter-spacing: 2.5px;
+  letter-spacing: 2.2px;
 
-  color: var(--deep-rose);
+  color:
+    var(--deep-rose);
 
 }
 
@@ -933,9 +1249,7 @@ img {
 .custom-content h2 {
 
   margin:
-    18px
-    0
-    12px;
+    17px 0 12px;
 
   font-family:
     'Cormorant Garamond',
@@ -943,25 +1257,30 @@ img {
 
   font-size:
     clamp(
-      3rem,
-      8vw,
+      2.9rem,
+      9vw,
       5.5rem
     );
 
-  font-weight: 400;
+  font-weight:
+    400;
 
-  line-height: 0.85;
+  line-height:
+    0.85;
 
-  color: var(--brown);
+  color:
+    var(--brown);
 
 }
 
 
 .custom-content h2 em {
 
-  color: var(--rose);
+  color:
+    var(--rose);
 
-  font-weight: 400;
+  font-weight:
+    400;
 
 }
 
@@ -969,14 +1288,12 @@ img {
 .custom-content p {
 
   max-width:
-    450px;
+    430px;
 
   margin:
-    0
-    auto;
+    0 auto;
 
-  font-size:
-    10px;
+  font-size: 9px;
 
   line-height:
     1.8;
@@ -987,24 +1304,19 @@ img {
 }
 
 
-/* =========================================
-   CUSTOM BUTTON
-========================================= */
-
 .custom-button {
 
-  margin-top:
-    28px;
+  width:
+    min(100%, 230px);
 
   min-height:
-    50px;
+    47px;
 
-  min-width:
-    210px;
+  margin-top:
+    26px;
 
   padding:
-    0
-    22px;
+    0 18px;
 
   display:
     inline-flex;
@@ -1015,9 +1327,11 @@ img {
   justify-content:
     space-between;
 
-  gap: 25px;
+  gap:
+    20px;
 
-  border: none;
+  border:
+    none;
 
   border-radius:
     30px;
@@ -1025,59 +1339,57 @@ img {
   background:
     var(--rose);
 
-  color: white;
+  color:
+    white;
 
-  font-size: 8px;
+  font-size:
+    7px;
 
-  letter-spacing: 1.5px;
+  letter-spacing:
+    1.4px;
 
-  cursor: pointer;
+  cursor:
+    pointer;
+
+  touch-action:
+    manipulation;
 
   transition:
-    transform 0.25s ease,
-    background 0.25s ease;
+    transform 0.2s ease,
+    background 0.2s ease;
 
 }
 
 
 .custom-button:hover {
 
-  transform:
-    translateY(-2px);
-
   background:
     var(--deep-rose);
 
+  transform:
+    translateY(-2px);
+
+}
+
+
+.custom-button:active {
+
+  transform:
+    scale(0.98);
+
 }
 
 
-/* =========================================
-   BUTTON LINE
-   Menggantikan simbol ↗
-========================================= */
+.custom-arrow {
 
-.button-line {
+  font-size:
+    16px;
 
-  width:
-    22px;
-
-  height:
-    1px;
-
-  display:
-    block;
-
-  flex-shrink: 0;
-
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.9
-    );
+  line-height:
+    1;
 
 }
+
 
 
 /* =========================================
@@ -1086,15 +1398,18 @@ img {
 
 .footer {
 
-  padding:
-    55px
-    clamp(18px, 5vw, 60px)
-    25px;
+  width: 100%;
 
-  text-align: center;
+  padding:
+    50px
+    clamp(16px, 5vw, 60px)
+    22px;
+
+  text-align:
+    center;
 
   background:
-    #fffaf7;
+    var(--ivory);
 
 }
 
@@ -1106,7 +1421,7 @@ img {
     cursive;
 
   font-size:
-    38px;
+    36px;
 
   color:
     var(--deep-rose);
@@ -1117,15 +1432,13 @@ img {
 .footer > p {
 
   margin:
-    8px
-    0
-    40px;
+    7px 0 35px;
 
   font-size:
-    6px;
+    5.5px;
 
   letter-spacing:
-    2.5px;
+    2.2px;
 
   color:
     var(--brown);
@@ -1136,7 +1449,7 @@ img {
 .footer-bottom {
 
   padding-top:
-    18px;
+    16px;
 
   display:
     flex;
@@ -1144,20 +1457,18 @@ img {
   justify-content:
     space-between;
 
+  gap:
+    15px;
+
   border-top:
     1px solid
-    rgba(
-      111,
-      87,
-      84,
-      0.12
-    );
+    rgba(111, 87, 84, 0.12);
 
   font-size:
-    6px;
+    5.5px;
 
   letter-spacing:
-    1.5px;
+    1.2px;
 
   color:
     #927b77;
@@ -1165,20 +1476,21 @@ img {
 }
 
 
+
 /* =========================================
-   SMALL PHONES
+   360px AND BELOW
 ========================================= */
 
-@media (max-width: 380px) {
+@media (max-width: 360px) {
 
   .header {
 
     min-height:
-      88px;
+      86px;
 
     padding:
-      14px
-      15px;
+      13px
+      14px;
 
   }
 
@@ -1186,21 +1498,18 @@ img {
   .brand-name {
 
     font-size:
-      31px;
+      29px;
 
   }
 
 
   .brand-subtitle {
 
-    margin-top:
-      7px;
-
     font-size:
-      5px;
+      4.5px;
 
     letter-spacing:
-      2px;
+      1.8px;
 
   }
 
@@ -1227,7 +1536,7 @@ img {
   .page-number {
 
     font-size:
-      7px;
+      6.5px;
 
   }
 
@@ -1235,20 +1544,23 @@ img {
   .collection-intro {
 
     padding:
-      48px
-      15px
-      40px;
+      43px
+      14px
+      38px;
 
   }
 
 
   .eyebrow {
 
+    margin-bottom:
+      14px;
+
     font-size:
-      6px;
+      5.5px;
 
     letter-spacing:
-      2px;
+      1.8px;
 
   }
 
@@ -1256,7 +1568,7 @@ img {
   .collection-intro h1 {
 
     font-size:
-      2.9rem;
+      2.7rem;
 
   }
 
@@ -1264,13 +1576,13 @@ img {
   .intro-description {
 
     max-width:
-      290px;
+      285px;
 
     margin-top:
-      23px;
+      22px;
 
     font-size:
-      9px;
+      8px;
 
   }
 
@@ -1279,58 +1591,22 @@ img {
 
     padding:
       0
-      12px
-      60px;
+      10px
+      58px;
 
     column-gap:
       10px;
 
     row-gap:
-      38px;
+      43px;
 
   }
 
 
-  .product-info {
+  .product-image {
 
-    padding-top:
-      10px;
-
-    display:
-      block;
-
-  }
-
-
-  .product-info h2 {
-
-    font-size:
-      20px;
-
-  }
-
-
-  .product-info p {
-
-    margin-top:
-      5px;
-
-    font-size:
-      7px;
-
-  }
-
-
-  .price {
-
-    display:
-      block;
-
-    margin-top:
-      7px;
-
-    font-size:
-      8px;
+    aspect-ratio:
+      0.77;
 
   }
 
@@ -1343,14 +1619,100 @@ img {
     left:
       8px;
 
+    font-size:
+      6px;
+
+  }
+
+
+  .product-info {
+
+    min-height:
+      64px;
+
+    padding-top:
+      10px;
+
+    column-gap:
+      5px;
+
+  }
+
+
+  .product-info h2 {
+
+    font-size:
+      18px;
+
+    line-height:
+      0.92;
+
+  }
+
+
+  .product-info p {
+
+    margin-top:
+      5px;
+
+    font-size:
+      6px;
+
+  }
+
+
+  .price {
+
+    padding-top:
+      2px;
+
+    font-size:
+      6px;
+
+  }
+
+
+  .buy-button {
+
+    min-height:
+      41px;
+
+    margin-top:
+      3px;
+
+    padding:
+      0 10px;
+
+    font-size:
+      5.6px;
+
+    letter-spacing:
+      0.8px;
+
+  }
+
+
+  .buy-arrow {
+
+    font-size:
+      14px;
+
   }
 
 
   .custom-section {
 
     padding:
-      65px
-      18px;
+      62px
+      15px;
+
+  }
+
+
+  .custom-label {
+
+    font-size:
+      5.5px;
 
   }
 
@@ -1358,7 +1720,7 @@ img {
   .custom-content h2 {
 
     font-size:
-      3rem;
+      2.7rem;
 
   }
 
@@ -1366,26 +1728,21 @@ img {
   .custom-content p {
 
     font-size:
-      9px;
+      8px;
 
   }
 
 
   .custom-button {
 
-    width:
-      100%;
-
     max-width:
-      230px;
+      215px;
 
-  }
+    min-height:
+      44px;
 
-
-  .button-line {
-
-    width:
-      20px;
+    font-size:
+      6px;
 
   }
 
@@ -1393,7 +1750,7 @@ img {
   .footer {
 
     padding-top:
-      45px;
+      43px;
 
   }
 
@@ -1401,7 +1758,7 @@ img {
   .footer-brand {
 
     font-size:
-      34px;
+      33px;
 
   }
 
@@ -1416,18 +1773,20 @@ img {
 }
 
 
+
 /* =========================================
-   VERY SMALL PHONES
+   320px AND BELOW
 ========================================= */
 
-@media (max-width: 330px) {
+@media (max-width: 320px) {
 
   .header {
 
-    grid-template-columns:
-      1fr
-      auto
-      1fr;
+    padding-left:
+      11px;
+
+    padding-right:
+      11px;
 
   }
 
@@ -1435,7 +1794,7 @@ img {
   .brand-name {
 
     font-size:
-      28px;
+      26px;
 
   }
 
@@ -1445,13 +1804,26 @@ img {
     font-size:
       4px;
 
+    letter-spacing:
+      1.4px;
+
+  }
+
+
+  .collection-intro {
+
+    padding:
+      38px
+      11px
+      34px;
+
   }
 
 
   .collection-intro h1 {
 
     font-size:
-      2.55rem;
+      2.45rem;
 
   }
 
@@ -1459,15 +1831,29 @@ img {
   .intro-description {
 
     font-size:
-      8.5px;
+      7.5px;
 
   }
 
 
   .products {
 
+    padding-left:
+      9px;
+
+    padding-right:
+      9px;
+
     column-gap:
-      7px;
+      8px;
+
+  }
+
+
+  .product-info {
+
+    min-height:
+      61px;
 
   }
 
@@ -1475,7 +1861,7 @@ img {
   .product-info h2 {
 
     font-size:
-      18px;
+      16.5px;
 
   }
 
@@ -1483,7 +1869,7 @@ img {
   .product-info p {
 
     font-size:
-      6px;
+      5.5px;
 
   }
 
@@ -1491,38 +1877,37 @@ img {
   .price {
 
     font-size:
-      7px;
+      5.5px;
 
   }
 
 
-  .custom-content h2 {
+  .buy-button {
+
+    min-height:
+      39px;
+
+    padding:
+      0 8px;
 
     font-size:
-      2.7rem;
+      5px;
+
+    letter-spacing:
+      0.55px;
 
   }
 
 
-  .button-line {
+  .buy-arrow {
 
-    width:
-      18px;
-
-  }
-
-
-  .footer-bottom {
-
-    flex-direction:
-      column;
-
-    gap:
-      8px;
+    font-size:
+      13px;
 
   }
 
 }
+
 
 
 /* =========================================
@@ -1533,23 +1918,29 @@ img {
 
   .products {
 
-    grid-template-columns:
-      repeat(
-        2,
-        minmax(0, 1fr)
-      );
+    column-gap:
+      24px;
 
   }
 
 
-  .collection-intro {
+  .product-info {
 
-    padding-top:
-      75px;
+    min-height:
+      78px;
+
+  }
+
+
+  .buy-button {
+
+    min-height:
+      48px;
 
   }
 
 }
+
 
 
 /* =========================================
@@ -1561,7 +1952,7 @@ img {
   .header {
 
     min-height:
-      110px;
+      105px;
 
   }
 
@@ -1569,46 +1960,53 @@ img {
   .products {
 
     grid-template-columns:
-      repeat(
-        4,
-        minmax(0, 1fr)
-      );
+      repeat(4, minmax(0, 1fr));
 
     column-gap:
-      24px;
+      25px;
 
     row-gap:
-      40px;
-
-  }
-
-
-  .collection-intro {
-
-    padding-top:
-      90px;
-
-    padding-bottom:
-      70px;
+      45px;
 
   }
 
 
   .product-info {
 
-    display:
-      block;
+    min-height:
+      85px;
+
+  }
+
+
+  .product-info h2 {
+
+    font-size:
+      27px;
+
+  }
+
+
+  .product-info p {
+
+    font-size:
+      8px;
 
   }
 
 
   .price {
 
-    display:
-      block;
+    font-size:
+      9px;
 
-    margin-top:
-      8px;
+  }
+
+
+  .buy-button {
+
+    min-height:
+      47px;
 
   }
 
@@ -1616,8 +2014,7 @@ img {
   .custom-section {
 
     padding:
-      110px
-      30px;
+      105px 25px;
 
   }
 
@@ -1625,11 +2022,12 @@ img {
   .footer {
 
     padding-top:
-      70px;
+      65px;
 
   }
 
 }
+
 
 
 /* =========================================
@@ -1641,7 +2039,7 @@ img {
   .products {
 
     max-width:
-      1350px;
+      1300px;
 
     column-gap:
       32px;
@@ -1653,22 +2051,6 @@ img {
 
     font-size:
       30px;
-
-  }
-
-
-  .product-info p {
-
-    font-size:
-      9px;
-
-  }
-
-
-  .price {
-
-    font-size:
-      10px;
 
   }
 
