@@ -637,7 +637,7 @@ const selectedBudgetLabel = computed(() => {
 function submitOrder() {
 
   const whatsappNumber =
-    '6282280805075'
+    '6283172536705'
 
 
   const message = `
