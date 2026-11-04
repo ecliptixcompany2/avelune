@@ -64,265 +64,46 @@
          PRODUCTS
     ========================================== -->
     <section class="products">
-
-
-      <!-- =======================================
-           01
-      ======================================== -->
-      <article class="product-card">
-
+      <article
+        v-for="(flower, index) in orderedFlowers"
+        :key="flower.name"
+        class="product-card"
+        :class="{ 'is-sold': flower.sold }"
+      >
         <div class="product-image">
+          <img :src="flower.image" :alt="flower.name" />
 
-          <img
-            src="/images/flower-01.jpg"
-            alt="Rosée d'Amour"
-          />
-
-          <span class="product-number">
-            01
+          <span v-if="!flower.numberOnImage" class="product-number">
+            {{ String(index + 1).padStart(2, '0') }}
           </span>
 
+          <div v-if="flower.sold" class="sold-overlay" aria-label="Sold out">
+            <span class="sold-label">SOLD OUT</span>
+          </div>
         </div>
-
 
         <div class="product-info">
-
           <div class="product-name">
-
-            <h2>
-              Rosée d'Amour
-            </h2>
-
-            <p>
-              Soft Pink
-            </p>
-
+            <h2>{{ flower.name }}</h2>
+            <p>{{ flower.color }}</p>
           </div>
 
-          <span class="price">
-            Rp 60.000
+          <span v-if="!flower.sold" class="price">
+            {{ flower.price }}
           </span>
-
         </div>
-
 
         <button
+          v-if="!flower.sold"
           class="buy-button"
           type="button"
-          @click="
-            buyFlower(
-              'Rosée d’Amour',
-              'Soft Pink',
-              'Rp 60.000'
-            )
-          "
+          @click="buyFlower(flower.name, flower.color, flower.price)"
         >
-          <span>
-            BUY THIS FLOWER
-          </span>
-
-          <span class="buy-arrow">
-            →
-          </span>
+          <span>BUY THIS FLOWER</span>
+          <span class="buy-arrow">→</span>
         </button>
-
       </article>
-
-
-
-      <!-- =======================================
-           02
-      ======================================== -->
-      <article class="product-card">
-
-        <div class="product-image">
-
-          <img
-            src="/images/flower-02.jpg"
-            alt="Célestine Azure"
-          />
-
-          <span class="product-number">
-            02
-          </span>
-
-        </div>
-
-
-        <div class="product-info">
-
-          <div class="product-name">
-
-            <h2>
-              Célestine Azure
-            </h2>
-
-            <p>
-              Baby Blue
-            </p>
-
-          </div>
-
-          <span class="price">
-            Rp 40.000
-          </span>
-
-        </div>
-
-
-        <button
-          class="buy-button"
-          type="button"
-          @click="
-            buyFlower(
-              'Célestine Azure',
-              'Baby Blue',
-              'Rp 40.000'
-            )
-          "
-        >
-          <span>
-            BUY THIS FLOWER
-          </span>
-
-          <span class="buy-arrow">
-            →
-          </span>
-        </button>
-
-      </article>
-
-
-
-      <!-- =======================================
-           03
-      ======================================== -->
-      <article class="product-card">
-
-        <div class="product-image">
-
-          <img
-            src="/images/flower-03.jpg"
-            alt="Fuchsia Éclat"
-          />
-
-          <span class="product-number">
-            03
-          </span>
-
-        </div>
-
-
-        <div class="product-info">
-
-          <div class="product-name">
-
-            <h2>
-              Fuchsia Éclat
-            </h2>
-
-            <p>
-              Pink Magenta
-            </p>
-
-          </div>
-
-          <span class="price">
-            Rp 75.000
-          </span>
-
-        </div>
-
-
-        <button
-          class="buy-button"
-          type="button"
-          @click="
-            buyFlower(
-              'Fuchsia Éclat',
-              'Pink Magenta',
-              'Rp 75.000'
-            )
-          "
-        >
-          <span>
-            BUY THIS FLOWER
-          </span>
-
-          <span class="buy-arrow">
-            →
-          </span>
-        </button>
-
-      </article>
-
-
-
-      <!-- =======================================
-           04
-      ======================================== -->
-      <article class="product-card">
-
-        <div class="product-image">
-
-          <img
-            src="/images/flower-04.jpg"
-            alt="Soft Lilas"
-          />
-
-          <span class="product-number">
-            04
-          </span>
-
-        </div>
-
-
-        <div class="product-info">
-
-          <div class="product-name">
-
-            <h2>
-              Soft Lilas
-            </h2>
-
-            <p>
-              Lilac Pastel
-            </p>
-
-          </div>
-
-          <span class="price">
-            Rp 50.000
-          </span>
-
-        </div>
-
-
-        <button
-          class="buy-button"
-          type="button"
-          @click="
-            buyFlower(
-              'Soft Lilas',
-              'Lilac Pastel',
-              'Rp 50.000'
-            )
-          "
-        >
-          <span>
-            BUY THIS FLOWER
-          </span>
-
-          <span class="buy-arrow">
-            →
-          </span>
-        </button>
-
-      </article>
-
     </section>
-
-
 
     <!-- =========================================
          CUSTOM ORDER
@@ -398,31 +179,71 @@
 
 
 <script setup>
-
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-
-
-/* =========================================
-   ROUTER
-========================================= */
 
 const router = useRouter()
 
+/*
+ * Produk ready ditampilkan lebih dahulu.
+ * Produk ready otomatis ditampilkan lebih dahulu, lalu produk sold out.
+ * Célestine Azure, Rosée d’Amour, dan Soft Lilas berstatus sold out.
+ * Valestina tetap ready dengan harga Rp 75.000.
+ */
+const flowers = [
+  {
+    name: 'Rosalie Blush',
+    color: 'Pink & Mint',
+    price: 'Rp 50.000',
+    image: '/images/flower-05.png',
+    sold: false,
+    numberOnImage: true,
+  },
+  {
+    name: 'Bleu Céleste',
+    color: 'Sky Blue',
+    price: 'Rp 40.000',
+    image: '/images/flower-06.png',
+    sold: false,
+    numberOnImage: true,
+  },
+  {
+    name: 'Célestine Azure',
+    color: 'Baby Blue',
+    price: 'Rp 40.000',
+    image: '/images/flower-02.jpg',
+    sold: true,
+  },
+  {
+    name: 'Valestina',
+    color: 'Pink Magenta',
+    price: 'Rp 75.000',
+    image: '/images/flower-03.jpg',
+    sold: false,
+  },
+  {
+    name: 'Rosée d’Amour',
+    color: 'Soft Pink',
+    price: 'Rp 60.000',
+    image: '/images/flower-01.jpg',
+    sold: true,
+  },
+  {
+    name: 'Soft Lilas',
+    color: 'Lilac Pastel',
+    price: 'Rp 50.000',
+    image: '/images/flower-04.jpg',
+    sold: true,
+  },
+]
 
+const orderedFlowers = computed(() => [
+  ...flowers.filter((flower) => !flower.sold),
+  ...flowers.filter((flower) => flower.sold),
+])
 
-/* =========================================
-   WHATSAPP BUY
-========================================= */
-
-function buyFlower(
-  flowerName,
-  color,
-  price
-) {
-
-  const whatsappNumber =
-    '6283172536705'
-
+function buyFlower(flowerName, color, price) {
+  const whatsappNumber = '6283172536705'
 
   const message = `Hello Avelune! ♡
 
@@ -441,37 +262,17 @@ I'd like to know more about the availability and ordering process.
 
 Thank you! ♡`
 
-
-  const whatsappUrl =
-    `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
-
-
-  window.open(
-    whatsappUrl,
-    '_blank'
-  )
-
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+  window.open(whatsappUrl, '_blank')
 }
-
-
-
-/* =========================================
-   NAVIGATION
-========================================= */
 
 function goHome() {
-
   router.push('/')
-
 }
-
 
 function goToCustomOrder() {
-
   router.push('/custom-order')
-
 }
-
 </script>
 
 
@@ -922,6 +723,39 @@ button {
 
 }
 
+
+.product-card.is-sold .product-image img {
+  filter: saturate(0.72);
+  opacity: 0.58;
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
+
+.sold-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 250, 247, 0.24);
+  pointer-events: none;
+}
+
+.sold-label {
+  display: inline-block;
+  padding: 10px 15px;
+  border: 1px solid rgba(255, 250, 247, 0.95);
+  background: rgba(111, 87, 84, 0.76);
+  color: #fffaf7;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(8px, 1.5vw, 11px);
+  font-weight: 500;
+  letter-spacing: 2.2px;
+  text-align: center;
+}
+
+.product-card.is-sold .product-info {
+  opacity: 0.82;
+}
 
 .product-number {
 
