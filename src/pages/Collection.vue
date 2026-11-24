@@ -70,8 +70,43 @@
         class="product-card"
         :class="{ 'is-sold': flower.sold }"
       >
-        <div class="product-image">
-          <img :src="flower.image" :alt="flower.name" />
+        <div
+          class="product-image"
+          @touchstart="handleTouchStart($event)"
+          @touchend="handleTouchEnd($event, flower)"
+        >
+          <img
+            :src="flower.images?.[imageIndex[flower.name] || 0] || flower.image"
+            :alt="flower.name"
+            draggable="false"
+          />
+
+          <template v-if="flower.images?.length > 1">
+            <button
+              class="image-arrow image-arrow-left"
+              type="button"
+              aria-label="Previous image"
+              @click.stop="changeImage(flower, -1)"
+            >
+              ‹
+            </button>
+            <button
+              class="image-arrow image-arrow-right"
+              type="button"
+              aria-label="Next image"
+              @click.stop="changeImage(flower, 1)"
+            >
+              ›
+            </button>
+            <div class="image-dots" aria-label="Image position">
+              <span
+                v-for="(image, imageIndexValue) in flower.images"
+                :key="image"
+                class="image-dot"
+                :class="{ 'is-active': (imageIndex[flower.name] || 0) === imageIndexValue }"
+              ></span>
+            </div>
+          </template>
 
           <span v-if="!flower.numberOnImage" class="product-number">
             {{ String(index + 1).padStart(2, '0') }}
@@ -179,7 +214,7 @@
 
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -192,11 +227,79 @@ const router = useRouter()
  */
 const flowers = [
   {
+  name: 'Perle Bleue',
+  color: 'Baby Blue',
+  price: 'Rp 40.000',
+  image: '/images/flower-07.png',
+  sold: false,
+},
+{
+  name: 'Baby Pelac',
+  color: 'Pink Purple',
+  price: 'Rp 50.000',
+  image: '/images/flower-08.png',
+  sold: false,
+},
+{
+  name: 'Sweetie',
+  color: 'Pink Purple',
+  price: 'Rp 60.000',
+  image: '/images/flower-09.png',
+  sold: false,
+},
+  {
+    name: 'Valestina',
+    color: 'Pink Magenta',
+    price: 'Rp 75.000',
+    image: '/images/flower-03.jpg',
+    sold: false,
+  },
+{
+  name: 'Framboise',
+  color: 'Pink Magenta',
+  price: 'Rp 85.000',
+  images: [
+    '/images/flower-10.png',
+    '/images/flower-10-a.png',
+  ],
+  sold: false,
+},
+{
+  name: 'Pretty Fleur',
+  color: 'Pink Magenta',
+  price: 'Rp 100.000',
+  images: [
+    '/images/flower-11.png',
+    '/images/flower-11-a.png',
+  ],
+  sold: false,
+},
+{
+  name: 'Princess Fleur',
+  color: 'Baby Pink, Baby Yellow, White',
+  price: 'Rp 120.000',
+  images: [
+    '/images/flower-12.png',
+    '/images/flower-12-a.png',
+  ],
+  sold: false,
+},
+{
+  name: 'Dark Romantic',
+  color: 'Maroon Burgundy',
+  price: 'Rp 130.000',
+  images: [
+    '/images/flower-13.png',
+    '/images/flower-13-a.png',
+  ],
+  sold: false,
+},
+{
     name: 'Rosalie Blush',
     color: 'Pink & Mint',
     price: 'Rp 50.000',
     image: '/images/flower-05.png',
-    sold: false,
+    sold: true,
     numberOnImage: true,
   },
   {
@@ -204,7 +307,7 @@ const flowers = [
     color: 'Sky Blue',
     price: 'Rp 40.000',
     image: '/images/flower-06.png',
-    sold: false,
+    sold: true,
     numberOnImage: true,
   },
   {
@@ -213,13 +316,6 @@ const flowers = [
     price: 'Rp 40.000',
     image: '/images/flower-02.jpg',
     sold: true,
-  },
-  {
-    name: 'Valestina',
-    color: 'Pink Magenta',
-    price: 'Rp 75.000',
-    image: '/images/flower-03.jpg',
-    sold: false,
   },
   {
     name: 'Rosée d’Amour',
@@ -241,6 +337,32 @@ const orderedFlowers = computed(() => [
   ...flowers.filter((flower) => !flower.sold),
   ...flowers.filter((flower) => flower.sold),
 ])
+
+const imageIndex = ref({})
+const touchStartX = ref(0)
+
+function changeImage(flower, direction) {
+  if (!flower.images || flower.images.length < 2) return
+
+  const currentIndex = imageIndex.value[flower.name] || 0
+  imageIndex.value[flower.name] =
+    (currentIndex + direction + flower.images.length) % flower.images.length
+}
+
+function handleTouchStart(event) {
+  touchStartX.value = event.changedTouches[0].clientX
+}
+
+function handleTouchEnd(event, flower) {
+  if (!flower.images || flower.images.length < 2) return
+
+  const touchEndX = event.changedTouches[0].clientX
+  const swipeDistance = touchEndX - touchStartX.value
+
+  if (Math.abs(swipeDistance) < 35) return
+
+  changeImage(flower, swipeDistance < 0 ? 1 : -1)
+}
 
 function buyFlower(flowerName, color, price) {
   const whatsappNumber = '6283172536705'
@@ -723,6 +845,68 @@ button {
 
 }
 
+
+.product-image img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.image-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(255, 250, 247, 0.8);
+  border-radius: 50%;
+  background: rgba(255, 250, 247, 0.78);
+  color: var(--brown);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.image-arrow-left {
+  left: 8px;
+}
+
+.image-arrow-right {
+  right: 8px;
+}
+
+.image-dots {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  pointer-events: none;
+}
+
+.image-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 250, 247, 0.65);
+  border: 1px solid rgba(111, 87, 84, 0.45);
+}
+
+.image-dot.is-active {
+  background: #fffaf7;
+  border-color: #fffaf7;
+}
+
+.product-image:has(.image-arrow) {
+  touch-action: pan-y;
+}
 
 .product-card.is-sold .product-image img {
   filter: saturate(0.72);
